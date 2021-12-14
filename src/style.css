@@ -1,0 +1,15 @@
+body{
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+main{
+    width: 380px;
+    display: flex;
+    flex-direction: column;
+}

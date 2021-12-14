@@ -1,0 +1,39 @@
+.screenFinished .title{
+    color:#247A6B;
+}
+
+.screenFinished .infos{
+    padding: 0 10% 20px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.screenFinished .info{
+    height: 110px;
+}
+
+.screenFinished .info .description{
+    color: #293845;
+    font-size: 24px;
+    font-weight: 700;
+    Line-height: 28.13px;
+}
+
+.screenFinished .info .text{
+    color: #293845;
+    font-size: 22px;
+    Line-height: 25.78px;
+}
+
+.screenFinished .button{
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+}
+
+.screenFinished button{
+    width: 80%;
+    height: 42px;
+}

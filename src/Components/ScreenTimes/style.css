@@ -1,0 +1,30 @@
+.screenTimes main{
+    gap: 23px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.screenTimes .section{
+    margin-left: 24px;
+    gap: 22px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.screenTimes .description{
+    font-size: 20px;
+    line-height: 24px;
+}
+
+.screenTimes .buttons{
+    gap: 9px;
+
+    display: flex;
+}
+
+.screenTimes button{
+    width: 82px;
+    height: 43px;
+}
