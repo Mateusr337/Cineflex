@@ -15,5 +15,4 @@ export default function App(){
         <ScreenFinished />
     )}
 
-
 ReactDom.render(<App />, document.querySelector(".root"));

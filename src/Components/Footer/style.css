@@ -1,0 +1,36 @@
+.footer{
+    width: 100%;
+    height: 117px;
+    
+    gap: 10px;
+    background-color: #DFE6ED;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer .image{
+    width: 64px;
+    height: 89px;
+
+    background-color: #FFFFFF;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer .image img{
+    width: 48px;
+    height: 72px;
+}
+
+.footer .revision{
+    display: flex;
+    flex-direction: column;
+}
+
+.footer .revision span{
+    font-size: 26px;
+}

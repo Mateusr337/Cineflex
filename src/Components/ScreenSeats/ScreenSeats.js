@@ -1,6 +1,7 @@
 import Header from '../Header/Header';
 import TituleSection from '../TitleSection/TitleSection';
 import Button from '../Button/Button';
+import Footer from '../Footer/Footer';
 
 import './style.css';
 
@@ -50,8 +51,9 @@ export default function ScreenSeats (){
                 <div className="button">
                     <Button text={'Reservar assento(s)'}/>
                 </div>
-
             </main>
+            
+            <Footer />
         </div>
     )
 }

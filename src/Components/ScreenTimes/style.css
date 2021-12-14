@@ -13,7 +13,7 @@
     flex-direction: column;
 }
 
-.screenTimes .description{
+.screenTimes .descripton{
     font-size: 20px;
     line-height: 24px;
 }
@@ -27,4 +27,16 @@
 .screenTimes button{
     width: 82px;
     height: 43px;
+}
+
+@media Screen and (max-width: 250px){
+    .screenTimes .section{
+        width: 100%;
+        margin-left: none;
+        gap: 15px;
+    
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
 }

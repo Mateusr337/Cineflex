@@ -42,7 +42,7 @@
 
 .screenSeats .inputs{
     padding-bottom: 57px;
-    gap: 6px;
+    gap: 10px;
 
     display: flex;
     flex-direction: column;

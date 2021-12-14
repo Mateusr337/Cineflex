@@ -1,4 +1,4 @@
- .title{
+ .titleSection{
     width: 100%;
     height: 110px;
 
@@ -11,4 +11,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+@media screen and (max-width: 280px) {
+    .titleSection {
+        font-size: 18px;
+    }
 }

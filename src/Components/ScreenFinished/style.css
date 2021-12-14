@@ -1,10 +1,8 @@
-.screenFinished .title{
+.screenFinished .titleSection{
     color:#247A6B;
 }
 
 .screenFinished .infos{
-    padding: 0 10% 20px;
-
     display: flex;
     flex-direction: column;
 }
