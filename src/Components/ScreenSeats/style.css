@@ -31,6 +31,11 @@
     border: 1px solid #F7C52B;
 }
 
+.screenSeats .selected{
+    background-color: #8DD7CF;
+    border: 1px solid #1AAE9E;
+}
+
 .screenSeats .styleSeats{
     height: 100px;
     padding-bottom: 25px;

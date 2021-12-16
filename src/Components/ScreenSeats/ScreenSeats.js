@@ -11,9 +11,9 @@ import './style.css';
 export default function ScreenSeats (){
 
     const { idSessao } = useParams();
-    let status;
     const [film, setFilm] = useState();
-
+    const [allSeats, setAllSeats] = useState();
+    
     useEffect(() => {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v4/cineflex/showtimes/${idSessao}/seats`);
         promise.then( answer => {
@@ -21,6 +21,31 @@ export default function ScreenSeats (){
             console.log(answer.data);
         })
     }, [])
+
+    let status;
+    let selectedSeats = [];
+
+    function getSeats(idSeat, availability){
+        console.log(availability);
+        let index;
+        if( selectedSeats.includes(idSeat) && availability){
+            index = selectedSeats.indexOf(idSeat);
+            selectedSeats.splice(index, 1);
+        }else if( availability ){
+            selectedSeats.push(idSeat);
+        } else if ( !availability ){
+            alert('Por favor selecione outro, este está indisponivel');
+        }
+        setAllSeats(
+            film.seats.map( seat => {
+                seat.isAvailable? status='seat available' : status='seat notAvailable';
+                selectedSeats.includes(seat.id)? status='seat selected' : status=status;
+
+                return <div onClick={() => getSeats(seat.id, seat.isAvailable)} key={seat.id} className={status} >{seat.name}</div>
+            })
+        )
+    }
+
 
     return (
         <>
@@ -31,10 +56,12 @@ export default function ScreenSeats (){
                 <TituleSection text={'Selecione o(s) assento(s)'} />
 
                 <div className="seats">
-                    {film.seats.map( seat => {
-                        seat.isAvailable? status='seat available' : status='seat notAvailable';
-                        return <div key={seat.id} className={status} >{seat.name}</div>
-                    })}
+                    {allSeats !== undefined? allSeats : (
+                        film.seats.map( seat => {
+                            seat.isAvailable? status='seat available' : status='seat notAvailable';
+                            return <div onClick={() => getSeats(seat.id, seat.isAvailable)} key={seat.id} className={status} >{seat.name}</div>
+                        })
+                    )}
                 </div>
 
                 <div className="styleSeats">
@@ -44,7 +71,7 @@ export default function ScreenSeats (){
                     </div>
 
                     <div className="styleSeat" >
-                        <div className="seat" style={{backgroundColor: '#7B8B99', border: '1px solid #7B8B99'}}></div>
+                        <div className="seat" style={{backgroundColor: '#C3CFD9', border: '1px solid #7B8B99'}}></div>
                         <span>Disponível</span>
                     </div>
 
