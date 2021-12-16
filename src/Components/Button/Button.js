@@ -1,7 +1,11 @@
+import { Link } from 'react-router-dom';
 import './style.css';
 
-export default function Button ({ text }){
+export default function Button ({ text, destiny }){
+
     return(
-        <button>{text}</button>
+        <Link to={destiny}>
+            <button>{text}</button>
+        </Link>
     )
 }

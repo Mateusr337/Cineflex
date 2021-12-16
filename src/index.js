@@ -26,12 +26,12 @@ export default function App(){
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<ScreenFilms films={films}/>} />
-                <Route path="/times" element={<ScreenTimes />} />
-                <Route path="/times" element={<ScreenSeats />} />
-                <Route path="/times" element={<ScreenFinished />} />
+                <Route path="/sessoes/:idFilm" element={<ScreenTimes />} />
+                <Route path="/assentos/:idSessao" element={<ScreenSeats />} />
+                <Route path="/sucesso" element={<ScreenFinished />} />
             </Routes>
         </BrowserRouter>
-    )
+    );
 }
 
 render(<App />, document.querySelector(".root"));

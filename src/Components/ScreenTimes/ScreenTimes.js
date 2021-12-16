@@ -1,35 +1,55 @@
+import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
 import Header from '../Header/Header';
-import TituleSection from '../TitleSection/TitleSection';
+import TitleSection from '../TitleSection/TitleSection';
 import Button from '../Button/Button';
 import Footer from '../Footer/Footer';
-
 import './style.css';
 
 export default function ScreenTimes (){
+
+    let { idFilm } = useParams();
+    const [film, setFilm] = useState();
+
+    useEffect(() => {
+        const promise = axios.get(`https://mock-api.driven.com.br/api/v4/cineflex/movies/${idFilm}/showtimes`);
+        promise.then( answer => {
+            setFilm(answer.data);
+            console.log(answer.data);
+        })
+    }, []);
+
+    console.log(film);
+    
     return(
-        <div className="screenTimes">
+        <>
+        {film !== undefined? (
+            <div className="screenTimes">
             <Header />
             <main> 
-                <TituleSection text='Selecione o horário'/>
+                <TitleSection text='Selecione o horário'/>
 
-                <div className="section">
-                    <span className="descripton">Quinta-feira - 24/06/2021</span>
-                    <div className="buttons">
-                        <Button text={'15:00'} />
-                        <Button text={'15:00'} />
+                {film.days.map( day => (
+                    <div key={day.id} className="section">
+                        <span className="descripton">{day.weekday} - {day.date}</span>
+
+                        <div className="buttons">
+
+                            {day.showtimes.map( hour => (
+                                <Button key={hour.id} text={hour.name} destiny={`/assentos/${hour.id}`} />
+                            ))}
+
+                        </div>
                     </div>
-                </div>
-
-                <div className="section">
-                    <span className="descripton">Quinta-feira - 24/06/2021</span>
-
-                    <div className="buttons">
-                        <Button text={'15:00'} />
-                        <Button text={'15:00'} />
-                    </div>
-                </div>
-
-                <Footer />
+                ))}
             </main>
+            
+            <Footer film={film} />
         </div>
-    )}
+        ) : ''}
+        </>
+    )
+
+}

@@ -4,6 +4,7 @@ import Button from '../Button/Button';
 import './style.css';
 
 export default function ScreenFinished(){
+    
     return(
         <div className="screenFinished">
             <Header />

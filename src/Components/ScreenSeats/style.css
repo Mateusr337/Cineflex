@@ -10,8 +10,6 @@
     width: 26px;
     height: 26px;
 
-    background-color: #C3CFD9;
-    border: 1px solid #808F9D;
     border-radius: 50%;
 
     font-size: 11px;
@@ -21,6 +19,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.screenSeats .available{
+    background-color: #C3CFD9;
+    border: 1px solid #808F9D;
+}
+
+.screenSeats .notAvailable{
+    background-color: #FBE192;
+    border: 1px solid #F7C52B;
 }
 
 .screenSeats .styleSeats{

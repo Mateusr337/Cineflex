@@ -1,12 +1,9 @@
-import { Link } from "react-router-dom";
-
 import Header from '../Header/Header';
 import TituleSection from '../TitleSection/TitleSection';
+import Film from '../Film/Film';
 import './style.css';
 
 export default function ScreenFilms ({ films }){
-
-    console.log(films);
 
     return(
         <div className="screenFilms">
@@ -16,11 +13,7 @@ export default function ScreenFilms ({ films }){
 
                 <div className="films">
                     {films.map( (film) => (
-                        <Link to='/times'>
-                            <div key={film.id} className="film">
-                                <img src={film.posterURL} alt='film' />
-                            </div>
-                        </Link>
+                       <Film key={film.id} film={film} />
                     ))}
                 </div>
 

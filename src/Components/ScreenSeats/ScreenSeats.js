@@ -1,27 +1,40 @@
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+
 import Header from '../Header/Header';
 import TituleSection from '../TitleSection/TitleSection';
 import Button from '../Button/Button';
 import Footer from '../Footer/Footer';
-
 import './style.css';
 
 export default function ScreenSeats (){
 
-    let numbers = [];
-    for(let i=0; i < 50; i++){
-        numbers.push(i + 1);
-    }
+    const { idSessao } = useParams();
+    let status;
+    const [film, setFilm] = useState();
+
+    useEffect(() => {
+        const promise = axios.get(`https://mock-api.driven.com.br/api/v4/cineflex/showtimes/${idSessao}/seats`);
+        promise.then( answer => {
+            setFilm(answer.data);
+            console.log(answer.data);
+        })
+    }, [])
 
     return (
+        <>
+        {film !== undefined? (
         <div className="screenSeats">
             <Header />
             <main>
-
                 <TituleSection text={'Selecione o(s) assento(s)'} />
+
                 <div className="seats">
-                    {numbers.map( number => (
-                        <div key={number} className="seat">{number}</div>
-                    ))}
+                    {film.seats.map( seat => {
+                        seat.isAvailable? status='seat available' : status='seat notAvailable';
+                        return <div key={seat.id} className={status} >{seat.name}</div>
+                    })}
                 </div>
 
                 <div className="styleSeats">
@@ -49,11 +62,13 @@ export default function ScreenSeats (){
                 </div>
 
                 <div className="button">
-                    <Button text={'Reservar assento(s)'}/>
+                    <Button text={'Reservar assento(s)'} destiny={`/sucesso`}/>
                 </div>
             </main>
             
-            <Footer />
-        </div>
+            <Footer film={film.movie} date={film.day} hour={film.name} />
+        </div>) : ''}
+        </>
+        
     )
 }
