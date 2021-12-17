@@ -1,5 +1,6 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import Header from '../Header/Header';
@@ -8,42 +9,66 @@ import Button from '../Button/Button';
 import Footer from '../Footer/Footer';
 import './style.css';
 
-export default function ScreenSeats (){
+var selectedSeatsId = [];
+var seatsName =[];
 
+export default function ScreenSeats ({ setBuyerInfos, setBuyerSeats, setBuyerCPF, setBuyerName }){
+    const navigate = useNavigate();
+
+    const [userName, setUserName] = useState('');
+    const [userCPF, setUserCPF] = useState('');
     const { idSessao } = useParams();
     const [film, setFilm] = useState();
     const [allSeats, setAllSeats] = useState();
-    
+    let status;
+
     useEffect(() => {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v4/cineflex/showtimes/${idSessao}/seats`);
         promise.then( answer => {
             setFilm(answer.data);
-            console.log(answer.data);
+            console.log(answer.data)
         })
     }, [])
 
-    let status;
-    let selectedSeats = [];
-
     function getSeats(idSeat, availability){
-        console.log(availability);
+        seatsName = [];
+
         let index;
-        if( selectedSeats.includes(idSeat) && availability){
-            index = selectedSeats.indexOf(idSeat);
-            selectedSeats.splice(index, 1);
-        }else if( availability ){
-            selectedSeats.push(idSeat);
+        if( selectedSeatsId.includes(idSeat) && availability){
+            index = selectedSeatsId.indexOf(idSeat);
+            selectedSeatsId.splice(index, 1);
+        }else if( !selectedSeatsId.includes(idSeat) && availability ){
+            selectedSeatsId.push(idSeat);
         } else if ( !availability ){
             alert('Por favor selecione outro, este está indisponivel');
         }
         setAllSeats(
             film.seats.map( seat => {
                 seat.isAvailable? status='seat available' : status='seat notAvailable';
-                selectedSeats.includes(seat.id)? status='seat selected' : status=status;
+                if( selectedSeatsId.includes(seat.id) ) {
+                    status='seat selected'
+                    seatsName.push(seat.name)
+                 }else{status=status}
 
                 return <div onClick={() => getSeats(seat.id, seat.isAvailable)} key={seat.id} className={status} >{seat.name}</div>
             })
         )
+    }
+
+    function sendRequest(){
+        const promise = axios.post(
+            `https://mock-api.driven.com.br/api/v4/cineflex/seats/book-many`,
+             {ids: selectedSeatsId, name: userName, cpf: userCPF})
+        promise.then(() => {
+            navigate('/sucesso');
+            setBuyerInfos(film);
+            setBuyerSeats(seatsName);
+            setBuyerCPF(userCPF);
+            setBuyerName(userName);
+        })
+        promise.catch(() => {
+            alert('Sua requisão falhou!')
+        })
     }
 
 
@@ -59,7 +84,13 @@ export default function ScreenSeats (){
                     {allSeats !== undefined? allSeats : (
                         film.seats.map( seat => {
                             seat.isAvailable? status='seat available' : status='seat notAvailable';
-                            return <div onClick={() => getSeats(seat.id, seat.isAvailable)} key={seat.id} className={status} >{seat.name}</div>
+                            return (
+                            <div
+                            onClick={() => getSeats(seat.id, seat.isAvailable)}
+                            key={seat.id}
+                            className={status}>
+                                {seat.name}
+                            </div>)
                         })
                     )}
                 </div>
@@ -83,13 +114,22 @@ export default function ScreenSeats (){
 
                 <div className="inputs">
                     <span className="name descriptionInput">Nome do comprador</span>
-                    <input placeholder={'Digite seu nome...'}/>
+
+                    <input 
+                    placeholder={'Digite seu nome...'}
+                    value={userName} 
+                    onChange={(e) => setUserName(e.target.value)} />
+
                     <span className="cpf descriptionInput">CPF do comprador</span>
-                    <input placeholder={'Digite seu CPF...'}/>
+
+                    <input 
+                    placeholder={'Digite seu CPF...'}
+                    value={userCPF} 
+                    onChange={(e) => setUserCPF(e.target.value)}/>
                 </div>
 
                 <div className="button">
-                    <Button text={'Reservar assento(s)'} destiny={`/sucesso`}/>
+                    <Button onClick={sendRequest} text={'Reservar assento(s)'}/>
                 </div>
             </main>
             

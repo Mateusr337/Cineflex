@@ -1,11 +1,18 @@
 import { Link } from 'react-router-dom';
 import './style.css';
 
-export default function Button ({ text, destiny }){
+export default function Button ({ text, destiny, onClick }) {
 
     return(
-        <Link to={destiny}>
-            <button>{text}</button>
-        </Link>
+        <>
+        {destiny === undefined ? (
+            <button onClick={onClick} >{text}</button>
+        ) : (
+            <Link to={destiny}>
+                <button>{text}</button>
+            </Link>
+        )}
+        </>
     )
 }
+

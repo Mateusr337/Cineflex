@@ -17,12 +17,9 @@ export default function ScreenTimes (){
         const promise = axios.get(`https://mock-api.driven.com.br/api/v4/cineflex/movies/${idFilm}/showtimes`);
         promise.then( answer => {
             setFilm(answer.data);
-            console.log(answer.data);
         })
     }, []);
 
-    console.log(film);
-    
     return(
         <>
         {film !== undefined? (

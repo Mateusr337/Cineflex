@@ -3,12 +3,10 @@
 }
 
 .screenFinished .infos{
+    gap: 25px;
+    padding-bottom: 60px;
     display: flex;
     flex-direction: column;
-}
-
-.screenFinished .info{
-    height: 110px;
 }
 
 .screenFinished .info .description{
