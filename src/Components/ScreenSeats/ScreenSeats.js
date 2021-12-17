@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import TituleSection from '../TitleSection/TitleSection';
 import Button from '../Button/Button';
 import Footer from '../Footer/Footer';
@@ -16,6 +19,7 @@ var buyers = [];
 
 export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName }){
     const navigate = useNavigate();
+    toast("Wow so easy!");
 
     const [loading, setLoading] = useState(false);
     const [userName, setUserName] = useState('');
@@ -82,9 +86,9 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
         })
     }
 
-    // function ValidInputs (idSeat, availability){
-    //     userName != undefined && userCPF !== undefined ? '' : ''
-    // }
+    function ValidInputs (idSeat, availability){
+        userName != '' && userCPF !== '' ? getSeats(idSeat, availability) : alert('Digite seu nome e CPF');
+    }
 
 
     return (
@@ -101,7 +105,7 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
                             seat.isAvailable? status='seat available' : status='seat notAvailable';
                             return (
                             <div
-                            onClick={() => getSeats(seat.id, seat.isAvailable)}
+                            onClick={() => ValidInputs(seat.id, seat.isAvailable)}
                             key={seat.id}
                             className={status}>
                                 {seat.name}

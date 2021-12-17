@@ -15,3 +15,9 @@ main{
     display: flex;
     flex-direction: column;
 }
+
+@media (min-width: 500px) {
+    main{
+        width: 500px;
+    }
+}
