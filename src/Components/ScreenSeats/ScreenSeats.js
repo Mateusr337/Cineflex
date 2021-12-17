@@ -82,9 +82,9 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
         })
     }
 
-    function ValidInputs (idSeat, availability){
-        userName != undefined && userCPF !== undefined
-    }
+    // function ValidInputs (idSeat, availability){
+    //     userName != undefined && userCPF !== undefined ? '' : ''
+    // }
 
 
     return (
