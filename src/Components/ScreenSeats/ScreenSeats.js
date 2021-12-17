@@ -7,14 +7,17 @@ import TituleSection from '../TitleSection/TitleSection';
 import Button from '../Button/Button';
 import Footer from '../Footer/Footer';
 import BackButton from '../BackButton/BackButton';
+import Loading from '../ScreenLoading/ScreenLoading';
 import './style.css';
 
 var selectedSeatsId = [];
 var seatsName =[];
+var buyers = [];
 
-export default function ScreenSeats ({ setBuyerInfos, setBuyerSeats, setBuyerCPF, setBuyerName }){
+export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName }){
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(false);
     const [userName, setUserName] = useState('');
     const [userCPF, setUserCPF] = useState('');
     const { idSessao } = useParams();
@@ -23,9 +26,11 @@ export default function ScreenSeats ({ setBuyerInfos, setBuyerSeats, setBuyerCPF
     let status;
 
     useEffect(() => {
+        setLoading(true);
         const promise = axios.get(`https://mock-api.driven.com.br/api/v4/cineflex/showtimes/${idSessao}/seats`);
         promise.then( answer => {
             setFilm(answer.data);
+            setLoading(false);
         })
     }, [])
 
@@ -36,11 +41,14 @@ export default function ScreenSeats ({ setBuyerInfos, setBuyerSeats, setBuyerCPF
         if( selectedSeatsId.includes(idSeat) && availability){
             index = selectedSeatsId.indexOf(idSeat);
             selectedSeatsId.splice(index, 1);
+            buyers.splice(index, 1);
         }else if( !selectedSeatsId.includes(idSeat) && availability ){
             selectedSeatsId.push(idSeat);
+            buyers.push({idSeat: idSeat, name: userName, cpf: userCPF});
         } else if ( !availability ){
             alert('Por favor selecione outro, este está indisponivel');
         }
+
         setAllSeats(
             film.seats.map( seat => {
                 seat.isAvailable? status='seat available' : status='seat notAvailable';
@@ -54,26 +62,34 @@ export default function ScreenSeats ({ setBuyerInfos, setBuyerSeats, setBuyerCPF
         )
     }
 
+    console.log(buyers);
+    console.log(userName, userCPF)
+
     function sendRequest(){
+        setLoading(true);
         const promise = axios.post(
             `https://mock-api.driven.com.br/api/v4/cineflex/seats/book-many`,
-             {ids: selectedSeatsId, name: userName, cpf: userCPF})
+             {ids: selectedSeatsId, compradores: buyers})
         promise.then(() => {
             navigate('/sucesso');
-            setBuyerInfos(film);
-            setBuyerSeats(seatsName);
-            setBuyerCPF(userCPF);
-            setBuyerName(userName);
+            setFilmBuyers(film);
+            setBuyers(buyers);
+            setSeatsName(seatsName);
+            setLoading(false);
         })
         promise.catch(() => {
             alert('Sua requisão falhou!')
         })
     }
 
+    function ValidInputs (idSeat, availability){
+        userName != undefined && userCPF !== undefined
+    }
+
 
     return (
         <>
-        {film !== undefined? (
+        {film !== undefined && !loading? (
         <div className="screenSeats">
             <main>
                 <BackButton destiny={`/sessoes/${film.movie.id}`} />
@@ -133,7 +149,7 @@ export default function ScreenSeats ({ setBuyerInfos, setBuyerSeats, setBuyerCPF
             </main>
             
             <Footer film={film.movie} date={film.day} hour={film.name} />
-        </div>) : ''}
+        </div>) : <Loading />}
         </>
         
     )

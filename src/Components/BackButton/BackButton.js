@@ -17,9 +17,9 @@ const Container = styled.div`
     width: 30px;
     height: 30px;
 
-    border: 1px solid black;
+    border: 1px solid #363636;
     border-radius: 50%;
-    background-color: #E8833A;
+    background-color: #C3CFD9;
 
     position: fixed;
     top: 80px;

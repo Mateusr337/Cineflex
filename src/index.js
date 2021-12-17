@@ -13,14 +13,14 @@ import './reset.css';
 import './style.css';
 
 export default function App(){
-    const [films, setFilms] = useState([]);
+    const [films, setFilms] = useState();
 
-    const [buyerInfos, setBuyerInfos] = useState();
-    const [buyerSeats, setBuyerSeats] = useState();
-    const [buyerCPF, setBuyerCPF] = useState();
-    const [buyerName, setBuyerName] = useState();
+    const [filmBuyers, setFilmBuyers] = useState();
+    const [buyers, setBuyers] = useState();
+    const [seatsName, setSeatsName] = useState();
 
-    
+    console.log(filmBuyers, buyers, seatsName)
+
     useEffect(() => {
         const promise = axios.get('https://mock-api.driven.com.br/api/v4/cineflex/movies');
         promise.then( elements => {
@@ -37,20 +37,17 @@ export default function App(){
                 <Route path="/sessoes/:idFilm" element={<ScreenTimes />} />
 
                 <Route path="/assentos/:idSessao" element={<ScreenSeats 
-                setBuyerSeats={setBuyerSeats} 
-                setBuyerInfos={setBuyerInfos}
-                setBuyerCPF={setBuyerCPF}
-                setBuyerName={setBuyerName}/>} />
+                setFilmBuyers={setFilmBuyers}
+                setBuyers={setBuyers}
+                setSeatsName={setSeatsName}/>} />
 
                 <Route path="/sucesso" element={<ScreenFinished 
-                buyerSeats={buyerSeats} 
-                buyerInfos={buyerInfos}
-                buyerCPF={buyerCPF}
-                buyerName={buyerName}
-                setBuyerSeats={setBuyerSeats} 
-                setBuyerInfos={setBuyerInfos}
-                setBuyerCPF={setBuyerCPF}
-                setBuyerName={setBuyerName}/>} />
+                setFilmBuyers={setFilmBuyers}
+                setSeatsName={setSeatsName}
+                setBuyers={setBuyers}
+                buyers={buyers}
+                filmBuyers={filmBuyers}
+                seatsName={seatsName} />} />
             </Routes>
         </BrowserRouter>
         </>

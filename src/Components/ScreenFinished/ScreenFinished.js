@@ -3,23 +3,23 @@ import { useNavigate } from 'react-router-dom';
 
 import TitleSection from '../TitleSection/TitleSection';
 import Button from '../Button/Button';
+import Loading from '../ScreenLoading/ScreenLoading';
+import styled from 'styled-components';
 import './style.css';
 
-export default function ScreenFinished({ buyerInfos, buyerSeats, buyerCPF, buyerName, setBuyerSeats, setBuyerInfos, setBuyerCPF, setBuyerName }){
+export default function ScreenFinished({ buyers, setBuyers, filmBuyers, setFilmBuyers, seatsName, setSeatsName }){
 
     const navigate = useNavigate();
     const [comfirm, setComfirm] = useState();
 
     useEffect(() => {
-        setComfirm(buyerSeats !== undefined && buyerSeats !== undefined && buyerName !== undefined && buyerCPF !== undefined);
+        setComfirm(buyers !== undefined && filmBuyers !== undefined);
     })
 
     function cleanBuyer (){
-        setBuyerInfos(undefined);
-        setBuyerSeats(undefined);
-        setBuyerCPF(undefined);
-        setBuyerName(undefined);
-
+        setBuyers(undefined);
+        setFilmBuyers(undefined);
+        seatsName(undefined);
         navigate('/');
     }
 
@@ -33,20 +33,24 @@ export default function ScreenFinished({ buyerInfos, buyerSeats, buyerCPF, buyer
                     <div className="infos">
                         <div className="info filmSection">
                             <span className="description">Filme e sessão <br /></span>
-                            <span className="text">{buyerInfos.movie.title}<br /> {buyerInfos.day.weekday} {buyerInfos.day.date}</span>
+                            <span className="text">{filmBuyers.movie.title}<br /> {filmBuyers.day.weekday} {filmBuyers.day.date}</span>
                         </div>
     
-                        <div className="info tickets">
-                            <span className="description">Ingressos <br /></span>
-                            {buyerSeats.map( (seat, index) => (
-                                <span key={index} className="text">Assento {seat} <br /></span>
-                            ))}
-                        </div>
+                        {buyers.map( (buyer, index) => (
+                            <>
+                            <Separador />
+                            <div className="info tickets">
+                                <span className="description">Ingressos <br /></span>
+                                <span className="text">Assento {seatsName[index]} <br /></span>
+                            </div>
     
-                        <div className="info buyer">
-                            <span className="description">Comprador <br /></span>
-                            <span className="text">Nome: {buyerName} <br /> CPF: {buyerCPF}</span>
-                        </div>
+                            <div className="info buyer">
+                                <span className="description">Comprador <br /></span>
+                                <span className="text">Nome: {buyer.name} <br /> CPF: {buyer.cpf}</span>
+                            </div>
+                            </>
+                        ))}
+                        
                     </div>
     
                     <div className="button">
@@ -54,7 +58,13 @@ export default function ScreenFinished({ buyerInfos, buyerSeats, buyerCPF, buyer
                     </div>
                 </main>
             </div>
-        ) : ''}
+        ) : <Loading />}
         </>
     )
 }
+
+const Separador = styled.div`
+    width: 100%;
+    height: 2px;
+    background-color: #363636;
+`
