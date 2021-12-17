@@ -1,22 +1,32 @@
 import { useState, useEffect } from 'react';
-import Header from '../Header/Header';
+import { useNavigate } from 'react-router-dom';
+
 import TitleSection from '../TitleSection/TitleSection';
 import Button from '../Button/Button';
 import './style.css';
 
-export default function ScreenFinished({ buyerInfos, buyerSeats, buyerCPF, buyerName }){
+export default function ScreenFinished({ buyerInfos, buyerSeats, buyerCPF, buyerName, setBuyerSeats, setBuyerInfos, setBuyerCPF, setBuyerName }){
 
+    const navigate = useNavigate();
     const [comfirm, setComfirm] = useState();
 
     useEffect(() => {
         setComfirm(buyerSeats !== undefined && buyerSeats !== undefined && buyerName !== undefined && buyerCPF !== undefined);
     })
 
+    function cleanBuyer (){
+        setBuyerInfos(undefined);
+        setBuyerSeats(undefined);
+        setBuyerCPF(undefined);
+        setBuyerName(undefined);
+
+        navigate('/');
+    }
+
     return(
         <>
         {comfirm ? (
             <div className="screenFinished">
-                <Header />
                 <main>
                     <TitleSection text={'Pedido feito com sucesso!'} />
     
@@ -40,7 +50,7 @@ export default function ScreenFinished({ buyerInfos, buyerSeats, buyerCPF, buyer
                     </div>
     
                     <div className="button">
-                        <Button text={'Voltar pra Home'} destiny={'/'}/>
+                        <Button text={'Voltar pra Home'} onClick={cleanBuyer}/>
                     </div>
                 </main>
             </div>

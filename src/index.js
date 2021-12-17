@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import axios from 'axios';
 
+import Header from './Components/Header/Header';
 import ScreenFilms from './Components/ScreenFilms/ScreenFilms';
 import ScreenTimes from './Components/ScreenTimes/ScreenTimes';
 import ScreenSeats from './Components/ScreenSeats/ScreenSeats';
@@ -19,11 +20,7 @@ export default function App(){
     const [buyerCPF, setBuyerCPF] = useState();
     const [buyerName, setBuyerName] = useState();
 
-    setBuyerInfos(undefined);
-    setBuyerSeats(undefined);
-    setBuyerCPF(undefined);
-    setBuyerName(undefined);
-
+    
     useEffect(() => {
         const promise = axios.get('https://mock-api.driven.com.br/api/v4/cineflex/movies');
         promise.then( elements => {
@@ -32,6 +29,8 @@ export default function App(){
     }, []);
 
     return (
+        <>
+        <Header />
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<ScreenFilms films={films}/>} />
@@ -47,9 +46,14 @@ export default function App(){
                 buyerSeats={buyerSeats} 
                 buyerInfos={buyerInfos}
                 buyerCPF={buyerCPF}
-                buyerName={buyerName}/>} />
+                buyerName={buyerName}
+                setBuyerSeats={setBuyerSeats} 
+                setBuyerInfos={setBuyerInfos}
+                setBuyerCPF={setBuyerCPF}
+                setBuyerName={setBuyerName}/>} />
             </Routes>
         </BrowserRouter>
+        </>
     );
 }
 

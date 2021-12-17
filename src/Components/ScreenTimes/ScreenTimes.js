@@ -2,10 +2,10 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import Header from '../Header/Header';
 import TitleSection from '../TitleSection/TitleSection';
 import Button from '../Button/Button';
 import Footer from '../Footer/Footer';
+import BackButton from '../BackButton/BackButton';
 import './style.css';
 
 export default function ScreenTimes (){
@@ -23,9 +23,9 @@ export default function ScreenTimes (){
     return(
         <>
         {film !== undefined? (
-            <div className="screenTimes">
-            <Header />
+        <div className="screenTimes">
             <main> 
+                <BackButton destiny={'/'} />
                 <TitleSection text='Selecione o horário'/>
 
                 {film.days.map( day => (

@@ -3,10 +3,10 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import Header from '../Header/Header';
 import TituleSection from '../TitleSection/TitleSection';
 import Button from '../Button/Button';
 import Footer from '../Footer/Footer';
+import BackButton from '../BackButton/BackButton';
 import './style.css';
 
 var selectedSeatsId = [];
@@ -26,7 +26,6 @@ export default function ScreenSeats ({ setBuyerInfos, setBuyerSeats, setBuyerCPF
         const promise = axios.get(`https://mock-api.driven.com.br/api/v4/cineflex/showtimes/${idSessao}/seats`);
         promise.then( answer => {
             setFilm(answer.data);
-            console.log(answer.data)
         })
     }, [])
 
@@ -76,8 +75,8 @@ export default function ScreenSeats ({ setBuyerInfos, setBuyerSeats, setBuyerCPF
         <>
         {film !== undefined? (
         <div className="screenSeats">
-            <Header />
             <main>
+                <BackButton destiny={`/sessoes/${film.movie.id}`} />
                 <TituleSection text={'Selecione o(s) assento(s)'} />
 
                 <div className="seats">
