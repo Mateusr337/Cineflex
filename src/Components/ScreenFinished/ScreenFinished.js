@@ -10,22 +10,23 @@ import './style.css';
 export default function ScreenFinished({ buyers, setBuyers, filmBuyers, setFilmBuyers, seatsName, setSeatsName }){
 
     const navigate = useNavigate();
-    const [comfirm, setComfirm] = useState();
+    const [show, setShow] = useState();
 
     useEffect(() => {
-        setComfirm(buyers !== undefined && filmBuyers !== undefined);
+        setShow(buyers !== undefined && filmBuyers !== undefined);
     })
 
     function cleanBuyer (){
         setBuyers(undefined);
         setFilmBuyers(undefined);
-        seatsName(undefined);
+        setSeatsName(undefined);
         navigate('/');
+        setShow(false);
     }
 
     return(
         <>
-        {comfirm ? (
+        {show ? (
             <div className="screenFinished">
                 <main>
                     <TitleSection text={'Pedido feito com sucesso!'} />

@@ -19,6 +19,9 @@ const Container = styled.div`
 
     display: flex;
     justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
 `
 const Box = styled.div`
     width: 40%;

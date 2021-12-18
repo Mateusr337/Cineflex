@@ -45,14 +45,6 @@
     align-items: center;
 }
 
-.screenSeats .styleSeat{
-    font-size: 13px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .screenSeats .inputs{
     padding-bottom: 57px;
     gap: 10px;

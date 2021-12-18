@@ -19,8 +19,6 @@ export default function App(){
     const [buyers, setBuyers] = useState();
     const [seatsName, setSeatsName] = useState();
 
-    console.log(filmBuyers, buyers, seatsName)
-
     useEffect(() => {
         const promise = axios.get('https://mock-api.driven.com.br/api/v4/cineflex/movies');
         promise.then( elements => {
