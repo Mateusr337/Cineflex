@@ -25,5 +25,9 @@ const Container = styled.div`
     top: 80px;
     left: 20px;
     z-index: 8;
+
+    &:hover{
+        cursor: pointer;
+    }
 `;
 

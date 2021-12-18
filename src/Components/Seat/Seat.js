@@ -12,7 +12,7 @@ export default function Seat ({ seat, status, ValidInputs, text, border, backgro
         </Container>
         ) : (
             <StyleSeat>
-                <Container border={border} background={background} ></Container>
+                <Container border={border} background={background} text={text}></Container>
                 <span>{text}</span>
             </StyleSeat>
             )}
@@ -35,6 +35,10 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &:hover{
+        cursor: ${props => props.text !== undefined ? 'auto' : 'pointer'};
+    }
 `
 
 const StyleSeat = styled.div`

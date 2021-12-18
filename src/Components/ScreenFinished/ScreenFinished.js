@@ -14,14 +14,16 @@ export default function ScreenFinished({ buyers, setBuyers, filmBuyers, setFilmB
 
     useEffect(() => {
         setShow(buyers !== undefined && filmBuyers !== undefined);
-    })
+    }, [buyers, filmBuyers])
+
+    console.log(show);
 
     function cleanBuyer (){
         setBuyers(undefined);
         setFilmBuyers(undefined);
         setSeatsName(undefined);
-        navigate('/');
         setShow(false);
+        navigate('/');
     }
 
     return(
@@ -47,7 +49,7 @@ export default function ScreenFinished({ buyers, setBuyers, filmBuyers, setFilmB
     
                             <div className="info buyer">
                                 <span className="description">Comprador <br /></span>
-                                <span className="text">Nome: {buyer.name} <br /> CPF: {buyer.cpf}</span>
+                                <span className="text">Nome: {buyer.name} <br /> CPF: {buyer.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")}</span>
                             </div>
                             </>
                         ))}

@@ -16,6 +16,10 @@ main{
     flex-direction: column;
 }
 
+button{
+    cursor: pointer;
+}
+
 @media (min-width: 500px) {
     main{
         width: 500px;

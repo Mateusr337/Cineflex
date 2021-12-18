@@ -34,7 +34,6 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
         promise.then( answer => {
             setFilm(answer.data);
             setLoading(false);
-            putAllSeats(answer.data);
         })
     }, [])
 
@@ -57,7 +56,7 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
         return putAllSeats(film);
     }
 
-    function putAllSeats(film){
+    function putAllSeats(){
         setAllSeats(
             film.seats.map( seat => {
                 seat.isAvailable? status='seat available' : status='seat notAvailable';
@@ -71,6 +70,7 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
     console.log(buyers);
     console.log(userName, userCPF)
     console.log(selectedSeatsId)
+    console.log(film);
 
     function sendRequest(){
         setLoading(true);
@@ -88,7 +88,8 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
     }
 
     function ValidInputs (idSeat, availability){
-        userName === undefined && userCPF === undefined ? toast('Digite seu nome e CPF') : getSeats(idSeat, availability);
+        //userName === undefined && userCPF === undefined ? toast('Digite seu nome e CPF') : getSeats(idSeat, availability);
+        getSeats(idSeat, availability);
     }
 
     function ConfirmSendRequest(){
@@ -97,7 +98,7 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
 
     return (
         <>
-        {film !== undefined && !loading && allSeats !== undefined ? (
+        {film !== undefined && !loading ? (
         <div className="screenSeats">
             <main>
                 <BackButton destiny={`/sessoes/${film.movie.id}`} />
@@ -110,7 +111,14 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
                 draggable pauseOnHover limit={1}/>
 
                 <div className="seats">
-                    {allSeats}
+                    {allSeats !== undefined? allSeats :(
+                        film.seats.map( seat => {
+                            seat.isAvailable? status='seat available' : status='seat notAvailable';
+                            if(selectedSeatsId.includes(seat.id)) {status='seat selected'; seatsName.push(seat.name)}
+            
+                            return <Seat seat={seat} key={seat.id} status={status} ValidInputs={ValidInputs}/>
+                        })
+                    )};
                 </div>
 
                 <div className="styleSeats">
@@ -123,6 +131,7 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
                     <span className="name descriptionInput">Nome do comprador</span>
 
                     <input 
+                    type="text"
                     placeholder={'Digite seu nome...'}
                     value={userName} 
                     onChange={(e) => setUserName(e.target.value)} />
@@ -130,6 +139,7 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
                     <span className="cpf descriptionInput">CPF do comprador</span>
                     
                     <input 
+                    type="number"
                     placeholder={'Digite seu CPF...'}
                     value={userCPF} 
                     onChange={(e) => setUserCPF(e.target.value)}/>
