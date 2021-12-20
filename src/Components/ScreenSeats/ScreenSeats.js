@@ -74,17 +74,17 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
 
     function sendRequest(){
         setLoading(true);
-        const promise = axios.post(
-            `https://mock-api.driven.com.br/api/v4/cineflex/seats/book-many`,
-             {ids: selectedSeatsId, compradores: buyers})
+        const promise = axios.post(`https://mock-api.driven.com.br/api/v4/cineflex/seats/book-many`,
+             {ids: selectedSeatsId, compradores: buyers});
+
         promise.then(() => {
             navigate('/sucesso');
             setFilmBuyers(film);
             setBuyers(buyers);
             setSeatsName(seatsName);
             setLoading(false);
-        })
-        promise.catch(() => toast('Sua requisão falhou! Tente novamente!'))
+        });
+        promise.catch(() => toast('Sua requisão falhou! Tente novamente!'));
     }
 
     function ValidInputs (idSeat, availability){
@@ -108,7 +108,7 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
                 autoClose={3000} hideProgressBar={false}
                 newestOnTop={false} closeOnClick
                 rtl={false} pauseOnFocusLoss
-                draggable pauseOnHover limit={1}/>
+                draggable pauseOnHover limit={2}/>
 
                 <div className="seats">
                     {allSeats !== undefined? allSeats :(
@@ -118,7 +118,7 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
             
                             return <Seat seat={seat} key={seat.id} status={status} ValidInputs={ValidInputs}/>
                         })
-                    )};
+                    )}
                 </div>
 
                 <div className="styleSeats">
