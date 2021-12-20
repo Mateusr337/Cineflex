@@ -13,8 +13,8 @@ import './reset.css';
 import './style.css';
 
 export default function App(){
+    
     const [films, setFilms] = useState();
-
     const [filmBuyers, setFilmBuyers] = useState();
     const [buyers, setBuyers] = useState();
     const [seatsName, setSeatsName] = useState();

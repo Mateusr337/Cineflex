@@ -16,8 +16,6 @@ export default function ScreenFinished({ buyers, setBuyers, filmBuyers, setFilmB
         setShow(buyers !== undefined && filmBuyers !== undefined);
     }, [buyers, filmBuyers])
 
-    console.log(show);
-
     function cleanBuyer (){
         setBuyers(undefined);
         setFilmBuyers(undefined);

@@ -1,9 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 
 import TituleSection from '../TitleSection/TitleSection';
 import Button from '../Button/Button';
@@ -21,11 +22,12 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
     const navigate = useNavigate();
     const { idSessao } = useParams();
 
+
     const [loading, setLoading] = useState(false);
-    const [userName, setUserName] = useState(undefined);
-    const [userCPF, setUserCPF] = useState(undefined);
     const [film, setFilm] = useState();
     const [allSeats, setAllSeats] = useState();
+    const userName = useRef('');
+    const userCPF = useRef('');
     let status;
 
     useEffect(() => {
@@ -39,6 +41,8 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
 
     function getSeats(idSeat, availability){
         seatsName = [];
+        let name =  userName.current.value;
+        let cpf = userCPF.current.value;
 
         let index;
         if( selectedSeatsId.includes(idSeat) && availability){
@@ -48,10 +52,10 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
             
         }else if( !selectedSeatsId.includes(idSeat) && availability ){
             selectedSeatsId.push(idSeat);
-            buyers.push({idSeat: idSeat, name: userName, cpf: userCPF});
+            buyers.push({idSeat: idSeat, name, cpf});
 
         } else if ( !availability ){
-            toast('Por favor selecione outro, este está indisponivel');
+            toast.warn('Por favor selecione outro, este está indisponivel');
         }
         return putAllSeats(film);
     }
@@ -67,11 +71,6 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
         )
     }
 
-    console.log(buyers);
-    console.log(userName, userCPF)
-    console.log(selectedSeatsId)
-    console.log(film);
-
     function sendRequest(){
         setLoading(true);
         const promise = axios.post(`https://mock-api.driven.com.br/api/v4/cineflex/seats/book-many`,
@@ -84,16 +83,16 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
             setSeatsName(seatsName);
             setLoading(false);
         });
-        promise.catch(() => toast('Sua requisão falhou! Tente novamente!'));
+        promise.catch(() => toast.error('Sua requisão falhou! Tente novamente!'));
     }
 
     function ValidInputs (idSeat, availability){
-        //userName === undefined && userCPF === undefined ? toast('Digite seu nome e CPF') : getSeats(idSeat, availability);
-        getSeats(idSeat, availability);
+        userName.current.value === '' && userCPF.current.value === ''? toast.warn('Digite seu nome e CPF') : 
+        userCPF.current.value.length !== 11 ? toast.warn('O CPF deve conter 11 números!') : getSeats(idSeat, availability);
     }
 
     function ConfirmSendRequest(){
-        selectedSeatsId.length === 0? toast('Você não selecionou nenhum assento!') : sendRequest();
+        selectedSeatsId.length === 0? toast.warn('Selecione ao menos um assento!') : sendRequest();
     }
 
     return (
@@ -104,11 +103,18 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
                 <BackButton destiny={`/sessoes/${film.movie.id}`} />
                 <TituleSection text={'Selecione o(s) assento(s)'} />
 
-                <ToastContainer position="top-center"
-                autoClose={3000} hideProgressBar={false}
-                newestOnTop={false} closeOnClick
-                rtl={false} pauseOnFocusLoss
-                draggable pauseOnHover limit={2}/>
+                <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                limit={1}
+                />
 
                 <div className="seats">
                     {allSeats !== undefined? allSeats :(
@@ -133,16 +139,14 @@ export default function ScreenSeats ({ setBuyers, setFilmBuyers, setSeatsName })
                     <input 
                     type="text"
                     placeholder={'Digite seu nome...'}
-                    value={userName} 
-                    onChange={(e) => setUserName(e.target.value)} />
+                    ref={userName} />
 
                     <span className="cpf descriptionInput">CPF do comprador</span>
                     
                     <input 
                     type="number"
                     placeholder={'Digite seu CPF...'}
-                    value={userCPF} 
-                    onChange={(e) => setUserCPF(e.target.value)}/>
+                    ref={userCPF}/>
                 </div>
 
                 <div className="button">
