@@ -12,6 +12,8 @@ import ScreenFinished from './Components/ScreenFinished/ScreenFinished';
 import './reset.css';
 import './style.css';
 
+window.title = 'Cineflex'
+
 export default function App(){
     
     const [films, setFilms] = useState();
