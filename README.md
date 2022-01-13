@@ -1,4 +1,14 @@
-# Getting Started with Create React App
+# Cineflex
+
+## About
+
+This project is a mobile app, where you can see available movie sessions and schedules, where you can buy tickets with reserved seats by choice.
+
+## Technologies
+
+React | HTML | JS | JSX | CSS | axios 
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -68,4 +78,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# Projeto-09---Cineflex
