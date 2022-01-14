@@ -1,5 +1,7 @@
 # Cineflex
 
+![Uploading Cineflix.gif…]()
+
 ## About
 
 This project is a mobile app, where you can see available movie sessions and schedules, where you can buy tickets with reserved seats by choice.
